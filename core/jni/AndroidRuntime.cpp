@@ -1285,6 +1285,8 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     /*
      * Start VM.  This thread becomes the main thread of the VM, and will
      * not return until the VM exits.
+     *
+     * Using reflection to get zygoteinit.main, and enter to Java world 
      */
     char* slashClassName = toSlashClassName(className != NULL ? className : "");
     jclass startClass = env->FindClass(slashClassName);
