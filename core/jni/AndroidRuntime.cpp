@@ -1287,6 +1287,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
      * not return until the VM exits.
      *
      * Using reflection to get zygoteinit.main, and enter to Java world 
+     *  - core/java/com/android/internal/os/ZygoteInit.java
      */
     char* slashClassName = toSlashClassName(className != NULL ? className : "");
     jclass startClass = env->FindClass(slashClassName);
