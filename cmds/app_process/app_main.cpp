@@ -91,7 +91,7 @@ public:
 
     virtual void onZygoteInit()
     {
-        sp<ProcessState> proc = ProcessState::self();
+        sp<ProcessState> proc = ProcessState::self(); /* binder init here */
         ALOGV("App process: starting thread pool.\n");
         proc->startThreadPool();
     }

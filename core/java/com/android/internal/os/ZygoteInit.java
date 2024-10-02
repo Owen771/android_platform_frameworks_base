@@ -841,13 +841,14 @@ public class ZygoteInit {
             zygoteServer = new ZygoteServer(isPrimaryZygote);
 
             if (startSystemServer) {
+                /* Getting a Runnable system_server, then run it */ 
                 Runnable r = forkSystemServer(abiList, zygoteSocketName, zygoteServer);
 
                 // {@code r == null} in the parent (zygote) process, and {@code r != null} in the
                 // child (system_server) process.
                 if (r != null) {
-                     /* child process: SystemServer (=ZygoteServer?) run in another thread here and return  */ 
-                    r.run();
+                     /* child process: SystemServer run its main() */ 
+                    r.run(); 
                     return;
                 }
             }
@@ -924,7 +925,10 @@ public class ZygoteInit {
         Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "ZygoteInit");
         RuntimeInit.redirectLogStreams();
 
+        /* Init runtime env */ 
         RuntimeInit.commonInit();
+
+        /* Init binder via JNI */  
         ZygoteInit.nativeZygoteInit();
         return RuntimeInit.applicationInit(targetSdkVersion, disabledCompatChanges, argv,
                 classLoader);
