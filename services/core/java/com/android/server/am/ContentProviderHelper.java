@@ -1346,6 +1346,7 @@ public class ContentProviderHelper {
         }
     }
 
+    // Manage various sys info, like font, sys settings, dev options etc
     public final void installSystemProviders() {
         List<ProviderInfo> providers;
         synchronized (mService) {

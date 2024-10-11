@@ -128,17 +128,21 @@ public class ZygoteInit {
         beginPreload();
         bootTimingsTraceLog.traceEnd(); // BeginPreload
         bootTimingsTraceLog.traceBegin("PreloadClasses");
+
         preloadClasses();
         bootTimingsTraceLog.traceEnd(); // PreloadClasses
         bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
         cacheNonBootClasspathClassLoaders();
         bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
+
         bootTimingsTraceLog.traceBegin("PreloadResources");
         Resources.preloadResources();
         bootTimingsTraceLog.traceEnd(); // PreloadResources
+        
         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
         nativePreloadAppProcessHALs();
         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+        
         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
         maybePreloadGraphicsDriver();
         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
