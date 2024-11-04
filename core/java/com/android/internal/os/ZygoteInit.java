@@ -851,7 +851,7 @@ public class ZygoteInit {
                 // {@code r == null} in the parent (zygote) process, and {@code r != null} in the
                 // child (system_server) process.
                 if (r != null) {
-                     /* child process: SystemServer run its main() */ 
+                    /* child process: SystemServer run its main() */ 
                     r.run(); 
                     return;
                 }
@@ -860,7 +860,6 @@ public class ZygoteInit {
             Log.i(TAG, "Accepting command socket connections");
             
             /* Parent process: Zygote run a inf loop to listen socket (like req from other component) */
-
             // The select loop returns early in the child process after a fork and
             // loops forever in the zygote.
             caller = zygoteServer.runSelectLoop(abiList);
@@ -934,6 +933,8 @@ public class ZygoteInit {
 
         /* Init binder via JNI */  
         ZygoteInit.nativeZygoteInit();
+        
+        /* Use reflection to get Main() and put it in runnable in the new process that from fork()  */  
         return RuntimeInit.applicationInit(targetSdkVersion, disabledCompatChanges, argv,
                 classLoader);
     }

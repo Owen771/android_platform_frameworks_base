@@ -483,6 +483,7 @@ class ZygoteServer {
 
             int pollReturnValue;
             try {
+                /* keep execute when pollFds has an event, otherwise blocked here */
                 pollReturnValue = Os.poll(pollFDs, pollTimeoutMs);
             } catch (ErrnoException ex) {
                 throw new RuntimeException("poll failed", ex);
@@ -500,13 +501,16 @@ class ZygoteServer {
             } else {
                 boolean usapPoolFDRead = false;
 
+                /* Process in reverse order? */ 
                 while (--pollIndex >= 0) {
+                    /* used IO multiplex, wont hit continue when recv client's req or data process req */ 
                     if ((pollFDs[pollIndex].revents & POLLIN) == 0) {
                         continue;
                     }
 
                     if (pollIndex == 0) {
                         // Zygote server socket
+                        /* adding newPeer and keep listening */ 
                         ZygoteConnection newPeer = acceptCommandPeer(abiList);
                         peers.add(newPeer);
                         socketFDs.add(newPeer.getFileDescriptor());
